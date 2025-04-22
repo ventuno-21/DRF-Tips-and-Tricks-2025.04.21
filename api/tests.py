@@ -32,4 +32,4 @@ class UserOrderTestCase(TestCase):
         and face 403 page (unauthenticated user)
         """
         response = self.client.get(reverse("user-orders"))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
