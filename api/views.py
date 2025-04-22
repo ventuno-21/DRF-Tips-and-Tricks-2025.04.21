@@ -52,6 +52,15 @@ def product_detail_v01(request, pk):
     return Response(serializer.data)
 
 
+class UserOrderListAPIView(generics.ListAPIView):
+    queryset = Order.objects.prefetch_related("items__product")
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(user=self.request.user)
+
+
 class OrderListAPIView(generics.ListAPIView):
     queryset = Order.objects.prefetch_related("items__product")
     serializer_class = OrderSerializer
