@@ -6,3 +6,28 @@ them in a user interface for further inspection
 
 more info => https://github.com/jazzband/django-silk
 ===========================================================
+===== What does 'REST CLIENT' plugin do ?
+is like 'postman' or 'swagger'
+You can create a file with name => <whatever>.http
+then run your server, 
+add a link like below one to your file (<whatever>.http)
+& above a link, a 'send request' will be appered
+click on it, usually on your right side you can see the result
+to seperate links from eachother you should put 3 #(###) between them
+
+GET http://127.0.0.1:8000/products/info/ HTTP/1.1
+
+####
+
+POST http://127.0.0.1:8000/products/info/ HTTP/1.1
+Content-Type: application/json
+
+{
+	"name": "Television",
+	"price": 300.00,
+	"stock": 14,
+	"description": "An amazing new TV"    
+}
+===========================================================
+
+
