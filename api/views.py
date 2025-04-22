@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.db.models import Max
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import generics
 from api.serializers import (
     ProductInfoSerializer,
     ProductSerializer,
@@ -12,14 +13,21 @@ from api.serializers import (
 from api.models import Product, Order, OrderItem
 
 
+class ProductListAPIView(generics.ListCreateAPIView):
+    # below two lines are the same, because of what we defined in Product model
+    # queryset = Product.objects.filter(in_stock=True)
+    queryset = Product.objects.filter(stock__gt=0)
+    serializer_class = ProductSerializer
+
+
 @api_view(["GET"])
-def product_list(request):
+def product_list_v02(request):
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
 
-def product_list_V01(request):
+def product_list_v01(request):
     """
     Output of this function is same as below,
     but without graphic that DRF uses,
@@ -32,15 +40,25 @@ def product_list_V01(request):
     )
 
 
+class ProductDetailAPIView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
 @api_view(["GET"])
-def product_detail(request, pk):
+def product_detail_v01(request, pk):
     product = get_object_or_404(Product, pk=pk)
     serializer = ProductSerializer(product)
     return Response(serializer.data)
 
 
+class OrderListAPIView(generics.ListAPIView):
+    queryset = Order.objects.prefetch_related("items__product")
+    serializer_class = OrderSerializer
+
+
 @api_view(["GET"])
-def order_list(request):
+def order_list_v01(request):
     # orders = Order.objects.all()
     # orders = Order.objects.prefetch_related("items").all()
     # orders = Order.objects.prefetch_related("items", "items__product").all()
@@ -48,8 +66,7 @@ def order_list(request):
     """
     The result of 4 above lines are the same, 
     but with 3rd & 4th lines we hit the Databse less than 1st * 2nd line, 
-    because in OrderSerlizer, 
-    we summon OrderItemSerializer (Thats why we use 'items' in prefetch), 
+    because in OrderSerlizer, we summon OrderItemSerializer (Thats why we use 'items' in prefetch), 
     and in OrderItemSerializer we summon product (Thats why we use 'items__product' in prefetch))
     The amount of hit to database is the same for 3rd & 4th lines
     """
