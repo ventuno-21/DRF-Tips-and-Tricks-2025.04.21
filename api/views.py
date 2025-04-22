@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
+from rest_framework.views import APIView
 from api.serializers import (
     ProductInfoSerializer,
     ProductSerializer,
@@ -85,8 +86,21 @@ def order_list_v01(request):
     return Response(serializer.data)
 
 
+class ProductInfoAPIView(APIView):
+    def get(self, request):
+        products = Product.objects.all()
+        serializer = ProductInfoSerializer(
+            {
+                "products": products,
+                "count": len(products),
+                "max_price": products.aggregate(max_price=Max("price"))["max_price"],
+            }
+        )
+        return Response(serializer.data)
+
+
 @api_view(["GET"])
-def product_info(request):
+def product_info_v01(request):
     products = Product.objects.all()
 
     # obj_max_price is an object, but max_price becuse we mention what we want in [] is a value
