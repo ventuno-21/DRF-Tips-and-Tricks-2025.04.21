@@ -15,11 +15,26 @@ from api.serializers import (
 from api.models import Product, Order, OrderItem
 
 
-class ProductListAPIView(generics.ListCreateAPIView):
+class ProductListCreateAPIView(generics.ListCreateAPIView):
     # below two lines are the same, because of what we defined in Product model
     # queryset = Product.objects.filter(in_stock=True)
-    queryset = Product.objects.filter(stock__gt=0)
+    # queryset = Product.objects.filter(stock__gt=0)
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+
+class ProducCreateAPIView(generics.CreateAPIView):
+    # below two lines are the same, because of what we defined in Product model
+    # queryset = Product.objects.filter(in_stock=True)
+    model = Product
+    serializer_class = ProductSerializer
+
+    def create(self, request, *args, **kwargs):
+        """
+        "request.data" in serlizer is equal "request.POST.get('name') "in pure django
+        """
+        print(request.data)
+        return super().create()
 
 
 @api_view(["GET"])
