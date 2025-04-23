@@ -1,5 +1,24 @@
 import django_filters
 from api.models import Product
+from rest_framework import filters
+
+
+class InStockFilterBackend(filters.BaseFilterBackend):
+    """
+    You can also provide your own generic filtering backend,
+    or write an installable app for other developers to use.
+
+    To do so override BaseFilterBackend, and override the
+    .filter_queryset(self, request, queryset, view) method.
+    The method should return a new, filtered queryset.
+
+    As well as allowing clients to perform searches and filtering,
+    generic filter backends can be useful for restricting which objects
+    should be visible to any given request or user.
+    """
+
+    def filter_queryset(self, request, queryset, view):
+        return queryset.filter(stock__gt=0)
 
 
 class ProductFilter(django_filters.FilterSet):

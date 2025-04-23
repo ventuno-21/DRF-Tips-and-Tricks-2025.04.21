@@ -15,7 +15,7 @@ from api.serializers import (
     OrderItemSerializer,
 )
 from api.models import Product, Order, OrderItem
-from .filters import ProductFilter
+from .filters import ProductFilter, InStockFilterBackend
 
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
@@ -28,6 +28,7 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         DjangoFilterBackend,
         filters.SearchFilter,
         filters.OrderingFilter,
+        InStockFilterBackend,  # customized filter, automatically check if product is available in stock
     ]
     ## below line is case sensetive, so we define our default filter function
     # filterset_fields = ["name", "price"]
