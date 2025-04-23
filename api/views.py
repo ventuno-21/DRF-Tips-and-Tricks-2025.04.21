@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework import generics
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 from api.serializers import (
     ProductInfoSerializer,
     ProductSerializer,
@@ -23,6 +24,17 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     # queryset = Product.objects.filter(stock__gt=0)
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    ## below line is case sensetive, so we define our default filter function
+    # filterset_fields = ["name", "price"]
+    filterset_class = ProductFilter  # http://127.0.0.1:8000/products/?price__gt=100
+    # http://127.0.0.1:8000/products/?search=vision
+    search_fields = ["name", "description"]
+    ordering_fields = ["name", "price", "stock"]
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
@@ -36,10 +48,6 @@ class ProducCreateAPIView(generics.CreateAPIView):
     # queryset = Product.objects.filter(in_stock=True)
     model = Product
     serializer_class = ProductSerializer
-    # filter_backends = [DjangoFilterBackend]
-    ## below line is case sensetive, so we define our default filter function
-    # filterset_fields = ["name", "price"]
-    filterset_class = ProductFilter
 
     def create(self, request, *args, **kwargs):
         """
