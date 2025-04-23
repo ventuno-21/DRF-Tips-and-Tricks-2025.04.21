@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework import generics
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from api.serializers import (
@@ -22,7 +23,7 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     # below two lines are the same, because of what we defined in Product model
     # queryset = Product.objects.filter(in_stock=True)
     # queryset = Product.objects.filter(stock__gt=0)
-    queryset = Product.objects.all()
+    queryset = Product.objects.order_by("pk")
     serializer_class = ProductSerializer
     filter_backends = [
         DjangoFilterBackend,
@@ -36,6 +37,20 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     # http://127.0.0.1:8000/products/?search=vision
     search_fields = ["name", "description"]
     ordering_fields = ["name", "price", "stock"]
+
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 2  # This will override what we define in settings
+    ## instead of 127.0.0.1:8000/products/?page=3 will be  127.0.0.1:8000/products/?pagenum=3
+    pagination_class.page_query_param = "pagenum"
+    pagination_class.page_size_query_param = 10
+    """ 
+    with query size=number it will override our page_size and the quantity of objects
+    that will retun will be equal 'number, 
+    therefore if we dont mention what page_size_query_param clinet can access
+    and a client mention vey large number like size=1000000000 it would be bad for 
+    our databse
+    Thats why we should mention => pagination_class.page_size_query_param = 10
+    """
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
@@ -109,6 +124,7 @@ class UserOrderListAPIView(generics.ListAPIView):
 class OrderListAPIView(generics.ListAPIView):
     queryset = Order.objects.prefetch_related("items__product")
     serializer_class = OrderSerializer
+    pagination_class = LimitOffsetPagination
 
 
 @api_view(["GET"])
