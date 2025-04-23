@@ -22,6 +22,12 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]
+        if self.request.method == "POST":
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
+
 
 class ProducCreateAPIView(generics.CreateAPIView):
     # below two lines are the same, because of what we defined in Product model
@@ -57,13 +63,13 @@ def product_list_v01(request):
     )
 
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
+class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
-        if self.request.method == "POST":
+        if self.request.method in ["PUT", "PATCH", "DELETE"]:
             self.permission_classes = [IsAdminUser]
         return super().get_permissions()
 
