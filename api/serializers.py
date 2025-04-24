@@ -39,6 +39,10 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
 
+    order_id = serializers.UUIDField(read_only=True)
+    """
+    Because read_only is Tue, it wont show up in create form
+    """
     items = OrderItemSerializer(many=True, read_only=True)
     """
     Whatever field that is mentioned in OrderItemSerilizer, will be shown in each item

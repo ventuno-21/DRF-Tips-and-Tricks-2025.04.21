@@ -4,7 +4,7 @@ from django.db.models import Max
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 from django_filters.rest_framework import DjangoFilterBackend
@@ -119,6 +119,13 @@ class UserOrderListAPIView(generics.ListAPIView):
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.filter(user=self.request.user)
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.prefetch_related("items__product")
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
 
 
 class OrderListAPIView(generics.ListAPIView):
