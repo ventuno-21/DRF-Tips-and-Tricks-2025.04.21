@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Product, Order, OrderItem
 from rest_framework.request import Request
+import time
+import datetime
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -40,9 +42,12 @@ class OrderItemSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
 
     order_id = serializers.UUIDField(read_only=True)
+    # status = serializers.Charfield(read_only=True)
     """
-    Because read_only is Tue, it wont show up in create form
+    Because read_only is Ture, it wont show up in create form, 
+    
     """
+
     items = OrderItemSerializer(many=True, read_only=True)
     """
     Whatever field that is mentioned in OrderItemSerilizer, will be shown in each item
@@ -66,10 +71,17 @@ class OrderSerializer(serializers.ModelSerializer):
         order_items = obj.items.all()
         return sum(order_item.item_subtotal for order_item in order_items)
 
+    date = serializers.SerializerMethodField(method_name="get_time")
+
+    def get_time(self, obj):
+        obj1 = obj.created_at
+        return obj1.strftime("Date: %Y-%m-%d - Time: %H:%M:%S")
+
     class Meta:
         model = Order
         fields = (
             "order_id",
+            "date",
             "created_at",
             "user",
             "status",
