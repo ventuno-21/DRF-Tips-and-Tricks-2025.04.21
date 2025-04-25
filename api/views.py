@@ -14,6 +14,7 @@ from api.models import Order, OrderItem, Product
 from api.serializers import (
     OrderItemSerializer,
     OrderSerializer,
+    OrderCreateSerializer,
     ProductInfoSerializer,
     ProductSerializer,
 )
@@ -137,6 +138,18 @@ class OrderViewSet(viewsets.ModelViewSet):
         if not self.request.user.is_staff:
             qs = qs.filter(user=self.request.user)
         return qs
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        """
+        we want to use diiferent serilizer
+        if the self.request.method="post" or the action=="create"
+        """
+        if self.action == "create":
+            return OrderCreateSerializer
+        return super().get_serializer_class()
 
     # @action(
     #     detail=False,

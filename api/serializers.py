@@ -39,6 +39,48 @@ class OrderItemSerializer(serializers.ModelSerializer):
         )
 
 
+class OrderCreateSerializer(serializers.ModelSerializer):
+    class OrderItemCreateSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = OrderItem
+            fields = ("product", "quantity")
+
+    order_id = serializers.UUIDField(read_only=True)
+    items = OrderItemCreateSerializer(many=True)
+
+    def create(self, validated_data):
+        # output = {'status': 'Pending', 'items': [{'product': <Product: Digital Camera>, 'quantity': 3}, {'product': <Product: Television>, 'quantity': 3}], 'user': <User: admin>}
+        print("validated_data ===== ", validated_data)
+
+        orderitem_data = validated_data.pop("items")
+
+        # output = {'status': 'Pending', 'user': <User: admin>}
+        print("validated_data ===== ", validated_data)
+        # output =  [{'product': <Product: Digital Camera>, 'quantity': 3}, {'product': <Product: Television>, 'quantity': 3}]
+        print("orderitem_data ===== ", orderitem_data)
+
+        # the below two line are the same
+        # order = Order.objects.create(**validated_data)
+        order = Order.objects.create(
+            status=validated_data.get("status"), user=validated_data.get("user")
+        )
+
+        for item in orderitem_data:
+            OrderItem.objects.create(order=order, **item)
+
+        return order
+
+    class Meta:
+        model = Order
+        fields = (
+            "order_id",
+            "user",
+            "status",
+            "items",
+        )
+        extra_kwargs = {"user": {"read_only": True}}
+
+
 class OrderSerializer(serializers.ModelSerializer):
 
     order_id = serializers.UUIDField(read_only=True)
@@ -88,6 +130,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "items",
             "total_price",
         )
+        extra_kwargs = {"user": {"read_only": True}}
 
 
 class ProductInfoSerializer(serializers.Serializer):
