@@ -3,20 +3,20 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, viewsets
-from rest_framework.decorators import api_view
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.models import Order, OrderItem, Product
+from api.models import Order, OrderItem, Product, User
 from api.serializers import (
+    OrderCreateSerializer,
     OrderItemSerializer,
     OrderSerializer,
-    OrderCreateSerializer,
     ProductInfoSerializer,
     ProductSerializer,
+    UserSerializer,
 )
 
 from .filters import InStockFilterBackend, OrderFilter, ProductFilter
@@ -219,3 +219,9 @@ def product_info_v01(request):
         }
     )
     return Response(serializer.data)
+
+
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    pagination_class = None

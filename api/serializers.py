@@ -1,9 +1,39 @@
-from rest_framework import serializers
-from .models import Product, Order, OrderItem
-from rest_framework.request import Request
-import time
 import datetime
+import time
+
 from django.db import transaction
+from rest_framework import serializers
+from rest_framework.request import Request
+
+from .models import Order, OrderItem, Product, User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "password",
+            "user_permissions",
+            "is_authenticated",
+            "get_full_name",
+            "orders",
+        )
+        # exclude = ('password', 'user_permissions')
+        # fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        """
+        we populate the fields that have relationship wth other tables
+        All detail of Foreignkey fileds will be displayed
+        instead of just showing an "id"
+        """
+        super(UserSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get("request")
+        print("self.context ===", self.context)
+        if request and request.method == "POST":
+            self.Meta.depth = 0
+        else:
+            self.Meta.depth = 3
 
 
 class ProductSerializer(serializers.ModelSerializer):
