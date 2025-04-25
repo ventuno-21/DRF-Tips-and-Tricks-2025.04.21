@@ -109,3 +109,7 @@ commits, potentially leading to enhanced database performance.
 
 
 ===========================================================
+===== redis cache
+$ docker run --name drf-redis -d -p 6379:6379 --rm  redis
+$ docker exec -it drf-redis bash
+$ redis-cli -n 1

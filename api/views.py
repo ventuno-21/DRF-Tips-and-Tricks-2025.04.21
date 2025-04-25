@@ -1,4 +1,6 @@
 from django.db.models import Max
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -42,7 +44,7 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     ordering_fields = ["name", "price", "stock"]
 
     pagination_class = PageNumberPagination
-    pagination_class.page_size = 2  # This will override what we define in settings
+    pagination_class.page_size = 10  # This will override what we define in settings
     ## instead of 127.0.0.1:8000/products/?page=3 will be  127.0.0.1:8000/products/?pagenum=3
     pagination_class.page_query_param = "pagenum"
     pagination_class.page_size_query_param = 10
@@ -54,6 +56,35 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     our databse
     Thats why we should mention => pagination_class.page_size_query_param = 10
     """
+
+    @method_decorator(cache_page(60 * 15, key_prefix="product_list"))
+    def list(self, request, *arges, **kwargs):
+        """
+        response to to this url will becached in redis,
+        1st attempt too this url will take 5 seconds, because we mention to sleep
+        for 2 seconds in get_queryset() methods,
+        but 2nd attempt to this url will be so fast because we cached the response in redis
+
+        why we use caching?
+        1) avoid hitting database as much as possible in time that we mention which is(15 minunets=60*15)
+        2) we we go to same url will be in fast approach
+        3) is better to use for databases that wont change more frequently
+
+        what is the problem of caching?
+        If we update database or change sth in our related view or serlizer,
+        or whatever that is related to this url, for amount of time that we mention
+        will not change, (amount of time =15 minutes thet we mention in decorator)
+
+        how to solve this problem?
+        A signal has been wroten, in case the table related to this URL is changed, delete previous cach
+        """
+        return super().list(request, *arges, **kwargs)
+
+    def get_queryset(self):
+        import time
+
+        time.sleep(5)
+        return super().get_queryset()
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
@@ -160,7 +191,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     # )
     # def user_orders(self, request):
     #     orders = self.get_queryset().filter(user=request.user)
-    #     serializer = self.get_serializer(orders, many=True)
+    #     serializer = self.ge t_serializer(orders, many=True)
     #     return Response(serializer.data)
 
 
