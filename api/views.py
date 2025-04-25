@@ -1,6 +1,7 @@
 from django.db.models import Max
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -162,6 +163,35 @@ class OrderViewSet(viewsets.ModelViewSet):
     pagination_class = None
     filterset_class = OrderFilter
     filter_backends = [DjangoFilterBackend]
+
+    @method_decorator(cache_page(60 * 15, key_prefix="order_list"))
+    @method_decorator(vary_on_headers("Authorization"))
+    def list(self, request, *arges, **kwargs):
+        """
+        response to to this url will becached in redis,
+        1st attempt too this url will take 5 seconds, because we mention to sleep
+        for 2 seconds in get_queryset() methods,
+        but 2nd attempt to this url will be so fast because we cached the response in redis
+
+        why we use caching?
+        1) avoid hitting database as much as possible in time that we mention which is(15 minunets=60*15)
+        2) we we go to same url will be in fast approach
+        3) is better to use for databases that wont change more frequently
+
+        what is the problem of caching?
+        1) If we update database or change sth in our related view or serlizer,
+        or whatever that is related to this url, for amount of time that we mention
+        will not change, (amount of time =15 minutes thet we mention in decorator)
+        how to solve this problem?
+        A signal has been wroten, in case the table related to this URL is changed, delete previous cache
+        2) if we dont use proper header when we send a request, it will send the other
+        users that use the same URL for us too.
+        how to solve this problem?
+        we can use decorator like vary_on_headers or vary_on_cookie
+        we use @method_decorator(vary_on_headers("Authorization"))
+        because each user has a specific token
+        """
+        return super().list(request, *arges, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
