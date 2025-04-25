@@ -3,6 +3,7 @@ from .models import Product, Order, OrderItem
 from rest_framework.request import Request
 import time
 import datetime
+from django.db import transaction
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -46,27 +47,52 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             fields = ("product", "quantity")
 
     order_id = serializers.UUIDField(read_only=True)
-    items = OrderItemCreateSerializer(many=True)
+    items = OrderItemCreateSerializer(many=True, required=False)
+    """
+    When we want to aupdate another field like status, if we don't send
+    items, we will face a problem, therefore, we declare that require=False for
+    items filed, so we will be able to update others fild without sending items
+    
+    """
+
+    def update(self, instance, validated_data):
+        orderitem_data = validated_data.pop("items")
+
+        with transaction.atomic():
+            """
+            with transaction.atomic() we prevent that our order get partially updated
+            """
+
+            instance = super().update(instance, validated_data)
+
+            if orderitem_data is not None:
+                # Clear existing items (optional, depends on requirements)
+                instance.items.all().delete()
+
+                # Recreate items with the updated data
+                for item in orderitem_data:
+                    OrderItem.objects.create(order=instance, **item)
+        return instance
 
     def create(self, validated_data):
         # output = {'status': 'Pending', 'items': [{'product': <Product: Digital Camera>, 'quantity': 3}, {'product': <Product: Television>, 'quantity': 3}], 'user': <User: admin>}
         print("validated_data ===== ", validated_data)
-
         orderitem_data = validated_data.pop("items")
-
         # output = {'status': 'Pending', 'user': <User: admin>}
         print("validated_data ===== ", validated_data)
         # output =  [{'product': <Product: Digital Camera>, 'quantity': 3}, {'product': <Product: Television>, 'quantity': 3}]
         print("orderitem_data ===== ", orderitem_data)
 
-        # the below two line are the same
-        # order = Order.objects.create(**validated_data)
-        order = Order.objects.create(
-            status=validated_data.get("status"), user=validated_data.get("user")
-        )
+        with transaction.atomic():
 
-        for item in orderitem_data:
-            OrderItem.objects.create(order=order, **item)
+            # the below two line are the same
+            # order = Order.objects.create(**validated_data)
+            order = Order.objects.create(
+                status=validated_data.get("status"), user=validated_data.get("user")
+            )
+
+            for item in orderitem_data:
+                OrderItem.objects.create(order=order, **item)
 
         return order
 
@@ -87,7 +113,6 @@ class OrderSerializer(serializers.ModelSerializer):
     # status = serializers.Charfield(read_only=True)
     """
     Because read_only is Ture, it wont show up in create form, 
-    
     """
 
     items = OrderItemSerializer(many=True, read_only=True)

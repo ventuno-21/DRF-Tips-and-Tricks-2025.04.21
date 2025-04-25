@@ -29,5 +29,83 @@ Content-Type: application/json
 	"description": "An amazing new TV"    
 }
 ===========================================================
+===== Transaction atomic() in Django
+Here we will learn how transaction atomic() can be used in our Django projects.
+We can use it basically in two ways as follows:
+
+1) As a Decorator
+2) As a Context Manager
 
 
+1) As a Decorator
+We can use transaction.atomic() as a decorator in Django to wrap a view function,
+ ensuring that the entire view's database operations are part of a single transaction. 
+ This helps maintain data integrity by automatically rolling back the transaction if an 
+ exception occurs. Here's how to use it:
+
+In the example above, the transfer_money view function is wrapped with @transaction.atomic.
+This means that the database operations within the view function are part of a single transaction.
+ If an exception occurs during any of these operations, 
+ the transaction is rolled back automatically.
+
+
+from django.db import transaction
+from django.http import HttpResponse
+
+@transaction.atomic
+def transfer_money(request):
+    try:
+        # Perform database operations
+
+        return HttpResponse(&quot;Money transfer successful&quot;)
+    except Exception as e:
+        # Handle exceptions, and the transaction will be rolled back automatically
+        return HttpResponse(&quot;Money transfer failed: &quot; + str(e))
+
+
+
+2) As a Context Manager
+transaction.atomic() is a context manager in Django that allows you to group a 
+series of database operations into a single transaction. The main benefit of using it as a 
+context manager is that it automatically commits the transaction if no exceptions occur. 
+If an exception is raised during the context block, the transaction is rolled back, 
+ensuring that the database remains in a consistent state.
+
+In the example above, we use with transaction.atomic(): to create a transaction block. 
+All database operations within this block are part of the same transaction. 
+If any exceptions occur, the transaction is automatically rolled back. Otherwise, 
+the changes are committed when the block exits.
+
+
+from django.db import transaction
+from myapp.models import MyModel
+
+def update_records(request):
+    try:
+        with transaction.atomic():
+            # Perform multiple database operations within a single transaction
+            records = MyModel.objects.select_for_update().filter(status='pending')
+            for record in records:
+                # Update each record
+                record.status = 'completed'
+                record.save()
+
+        return HttpResponse(&quot;Records updated successfully&quot;)
+    except Exception as e:
+        return HttpResponse(&quot;Error updating records: &quot; + str(e))
+
+
+Advantages of transaction atomic()
+The utilization of transaction atomic() offers several advantages for Django developers:
+
+A) Data Consistency: It ensures that the database remains consistent by committing changes 
+only when all operations within the transaction are successful.
+B) Error Handling: The tool streamlines error handling by automatically rolling back the 
+transaction in the event of an exception, effectively preventing data corruption.
+C) Enhanced Code Readability: Explicitly marking transactional sections of code enhances 
+code readability and maintainability.
+D) Improved Database Performance: transaction atomic() minimizes the frequency of database 
+commits, potentially leading to enhanced database performance.
+
+
+===========================================================

@@ -132,24 +132,25 @@ class OrderViewSet(viewsets.ModelViewSet):
     filterset_class = OrderFilter
     filter_backends = [DjangoFilterBackend]
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        """
+        we want to use diiferent serializer
+        if the self.request.method="post" or the action=="create"
+        Also we have to declare create & update method in related serializer
+        """
+        if self.action == "create" or self.action == "update":
+            return OrderCreateSerializer
+        return super().get_serializer_class()
+
     def get_queryset(self):
         """only users that own the order & admin are able to see/edit/delete the order"""
         qs = super().get_queryset()
         if not self.request.user.is_staff:
             qs = qs.filter(user=self.request.user)
         return qs
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-    def get_serializer_class(self):
-        """
-        we want to use diiferent serilizer
-        if the self.request.method="post" or the action=="create"
-        """
-        if self.action == "create":
-            return OrderCreateSerializer
-        return super().get_serializer_class()
 
     # @action(
     #     detail=False,
