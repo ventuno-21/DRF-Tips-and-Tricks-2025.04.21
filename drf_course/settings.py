@@ -130,6 +130,20 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 3,  # 3 objects or less in each page
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        # "rest_framework.throttling.UserateThrottle",
+        # "api.throttles.BurstRateThrottle",  # customized hrottle
+        # "api.throttles.SustainedRateThrottle",  # customized hrottle
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "5/minute",  # anonymous user
+        # "user": "15/minute", #authentcated user
+        "products": "15/minute",
+        "orders": "15/minute",
+        # "burst": "210/minute", # customized hrottle
+        # "sustained": "15/hour", # customized hrottle
+    },
 }
 
 SPECTACULAR_SETTINGS = {
