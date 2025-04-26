@@ -22,7 +22,7 @@ from api.serializers import (
     ProductSerializer,
     UserSerializer,
 )
-
+from api.tasks import send_order_confirmation_email
 from .filters import InStockFilterBackend, OrderFilter, ProductFilter
 
 
@@ -173,7 +173,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     @method_decorator(vary_on_headers("Authorization"))
     def list(self, request, *arges, **kwargs):
         """
-        response to to this url will becached in redis,
+        response to to this url will be cached in redis,
         1st attempt too this url will take 5 seconds, because we mention to sleep
         for 2 seconds in get_queryset() methods,
         but 2nd attempt to this url will be so fast because we cached the response in redis
@@ -199,7 +199,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         return super().list(request, *arges, **kwargs)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        order = serializer.save(user=self.request.user)
+        send_order_confirmation_email.delay(order.order_id, self.request.user.email)
 
     def get_serializer_class(self):
         """

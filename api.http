@@ -53,12 +53,12 @@ Content-Type: application/json
 ###
 GET  http://localhost:8000/viewset-orders/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NjExNjc0LCJpYXQiOjE3NDU2MDgwNzQsImp0aSI6IjBkMjhkM2NlNjRkZjQyZDJhMGRjMDZhYmMxMWU2ZGExIiwidXNlcl9pZCI6Mn0.7pVcbc2mkPMdwME2OHpBin77o8tNqfOngacqBhTPt8w
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NjU3OTQwLCJpYXQiOjE3NDU2NTQzNDAsImp0aSI6Ijg0M2FkZmQ4ODFjYjRkY2FhNjRlNmNkNTk1MTVjOTJhIiwidXNlcl9pZCI6Mn0.RcoyYd1Th3ZccniL_CzSnU4vzftyF5-Jbc2fNDCYRyI
 ###
 POST http://localhost:8000/viewset-orders/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NjExNjc0LCJpYXQiOjE3NDU2MDgwNzQsImp0aSI6IjBkMjhkM2NlNjRkZjQyZDJhMGRjMDZhYmMxMWU2ZGExIiwidXNlcl9pZCI6Mn0.7pVcbc2mkPMdwME2OHpBin77o8tNqfOngacqBhTPt8w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1Njc5MTY4LCJpYXQiOjE3NDU2NzU1NjgsImp0aSI6IjJlYTgwMmUzZGI2ZTQ3MTU4ZGY4ZTI1OGUzMDVhMzU0IiwidXNlcl9pZCI6Mn0.Nwop7V11ZT27gNEuUYF0ICtALMoORTEB8bmnXzOlweU
+
 
 
 {
@@ -66,7 +66,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 	"items": [
 		{
 				"product": 5,
-				"quantity": 3
+				"quantity": 10
 		},
 		{
 				"product": 4,

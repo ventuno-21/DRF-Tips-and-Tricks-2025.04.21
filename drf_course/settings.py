@@ -169,3 +169,11 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
+
+# Infrom CELERY about Redis which will be its broker, SAME URL as cache setting
+# YOu can use rabbitMq, Amazon , ...
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/1"
+# Store result from out task (you can use django databse too)
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/1"
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

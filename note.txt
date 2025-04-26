@@ -113,3 +113,15 @@ commits, potentially leading to enhanced database performance.
 $ docker run --name drf-redis -d -p 6379:6379 --rm  redis
 $ docker exec -it drf-redis bash
 $ redis-cli -n 1
+
+
+===========================================================
+===== Celery
+On Mac or Linux you can use prefork execution pool, with below command:
+$ celery -A drf_course worker --loglevel=INFO 
+
+on windows you can use eventlet, gevent, solo or thread execution pool:
+below code is how to run with eventlet execution pool:
+$ celery -A <module> worker -l info -P eventlet
+$ celery -A drf_course  worker -l info -P eventlet
+===========================================================
