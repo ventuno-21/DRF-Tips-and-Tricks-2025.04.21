@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "django_extensions",
     # internal apps
     "api",
+    "account",
     # Third party apps
     "rest_framework",
     "silk",
