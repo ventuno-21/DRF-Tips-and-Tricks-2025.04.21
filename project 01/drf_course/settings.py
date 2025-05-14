@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # internal apps
     "api",
     "account",
+    "app_test",
     # Third party apps
     "rest_framework",
     "silk",
