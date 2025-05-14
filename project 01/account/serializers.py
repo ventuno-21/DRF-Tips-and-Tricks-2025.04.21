@@ -86,3 +86,61 @@ class PersonModelSerilizer(serializers.ModelSerializer):
         if data["password"] != data["password2"]:
             raise serializers.ValidationError("Passwords should match")
         return data
+
+
+class PersonModelSerilizer2(serializers.ModelSerializer):
+    """
+    We override create method, instead of using it in related view, we override it here
+    =====================================================================
+    1) You can mention below line for password field, so it will not show
+    password because of property of write_only in it:
+
+         password = serializers.CharField(required=True, write_only=True)
+
+    2) or you can mention it like below in class Meta:
+        class Meta:
+            model = Person
+            fields = ("name", "email", "password", "password2")
+
+            extra_kwargs = {
+                # "password": {"write_only": True},
+            }
+    """
+
+    # password = serializers.CharField(required=True, write_only=True)
+    password2 = serializers.CharField(required=True, write_only=True)
+
+    class Meta:
+        model = Person
+        fields = ("name", "email", "password", "password2")
+        """
+        Please keep in mind that, if the field has already been explicitly 
+        declared on the serializer class, then the extra_kwargs option will be ignored.
+        """
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "email": {"validators": [clean_email]},
+        }
+        # fields = "__all__"
+
+    def create(self, validated_data):
+        del validated_data["password2"]
+        return Person.objects.create(**validated_data)
+
+    def validate_name(self, value):
+        """
+        Field Level Validation
+        """
+        if value == "admin":
+            raise serializers.ValidationError("Username cannot be admin")
+        return value
+
+    def validate(self, data):
+        """
+        Object Level Validation,
+        First field validation will be executed, and if there was no error,
+        then object-level validation will be executes
+        """
+        if data["password"] != data["password2"]:
+            raise serializers.ValidationError("Passwords should match")
+        return data

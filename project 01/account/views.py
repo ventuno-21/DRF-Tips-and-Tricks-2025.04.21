@@ -37,3 +37,22 @@ class PersonRegister2(APIView):
             return Response(s_data.data)
 
         return Response(s_data.errors)
+
+
+class PersonRegister3(APIView):
+    def post(self, request):
+        s_data = PersonModelSerilizer(data=request.data)
+        if s_data.is_valid():
+            """
+            Instead of creating a person instance we can create it in our serializer
+            """
+            s_data.create(s_data.validated_data)
+            # Person.objects.create(
+            #     name=s_data.validated_data["name"],
+            #     email=s_data.validated_data["email"],
+            #     password=s_data.validated_data["password"],
+            # )
+            # Because we mention write_only for password filed in PersonSerlizer, it would not show password in Response.data
+            return Response(s_data.data)
+
+        return Response(s_data.errors)
