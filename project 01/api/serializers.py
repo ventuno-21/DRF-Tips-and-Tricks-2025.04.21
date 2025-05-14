@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
         """
         super(UserSerializer, self).__init__(*args, **kwargs)
         request = self.context.get("request")
-        print("self.context ===", self.context)
+        # print("self.context ===", self.context)
         if request and request.method == "POST":
             self.Meta.depth = 0
         else:
