@@ -17,7 +17,17 @@ class CategoryListAPIView(ListAPIView):
     serializer_class = CategoryModelSerializer
 
 
+class CategoryDetailAPIView(RetrieveAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategoryModelSerializer
+
+
 class ArticleListAPIView(ListAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleModelSerializer
+
+
+class ArticleDetailAPIView(RetrieveAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleModelSerializer
 

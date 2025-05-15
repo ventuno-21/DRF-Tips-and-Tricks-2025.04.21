@@ -2,7 +2,8 @@ from rest_framework import serializers
 from .models import Category, Article, Product, Note
 
 
-class CategoryModelSerializer(serializers.ModelSerializer):
+class CategoryModelSerializer(serializers.HyperlinkedModelSerializer):
+    # class CategoryModelSerializer(serializers.ModelSerializer):
     """
     Prodcut & Article models, have a foreignkey relationship with Category Table,
 
@@ -25,7 +26,9 @@ class CategoryModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ("name", "note_category", "product_category", "article_category")
+        fields = "__all__"
+
+        # fields = ("id", "name", "note_category", "product_category", "article_category")
 
 
 class ArticleModelSerializer(serializers.ModelSerializer):
