@@ -17,7 +17,10 @@ class CategoryModelSerializer(serializers.ModelSerializer):
     """
 
     article_category = serializers.StringRelatedField(many=True)
-    product_category = serializers.StringRelatedField(many=True)
+    # product_category = serializers.StringRelatedField(many=True)
+    product_category = serializers.HyperlinkedRelatedField(
+        many=True, read_only=True, view_name="product_detail"
+    )
     note_category = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
