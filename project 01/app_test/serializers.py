@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Article, Product
+from .models import Category, Article, Product, Note
 
 
 class CategoryModelSerializer(serializers.ModelSerializer):
@@ -18,10 +18,11 @@ class CategoryModelSerializer(serializers.ModelSerializer):
 
     article_category = serializers.StringRelatedField(many=True)
     product_category = serializers.StringRelatedField(many=True)
+    note_category = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Category
-        fields = "__all__"
+        fields = ("name", "note_category", "product_category", "article_category")
 
 
 class ArticleModelSerializer(serializers.ModelSerializer):
@@ -33,4 +34,10 @@ class ArticleModelSerializer(serializers.ModelSerializer):
 class ProductsModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
+        fields = "__all__"
+
+
+class NoteModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
         fields = "__all__"

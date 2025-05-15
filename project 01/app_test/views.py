@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from rest_framework.generics import ListAPIView
-from .models import Product, Article, Category
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+
+from .models import Product, Article, Category, Note
 from .serializers import (
     ProductsModelSerializer,
     ArticleModelSerializer,
     CategoryModelSerializer,
+    NoteModelSerializer,
 )
 
 # Create your views here.
@@ -23,3 +25,18 @@ class ArticleListAPIView(ListAPIView):
 class ProductListAPIView(ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductsModelSerializer
+
+
+class ProductDetailAPIView(RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductsModelSerializer
+
+
+class NoteListAPIView(ListAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteModelSerializer
+
+
+class NoteDetailAPIView(RetrieveAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteModelSerializer

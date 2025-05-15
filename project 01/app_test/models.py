@@ -17,7 +17,7 @@ class Article(models.Model):
         Category, on_delete=models.SET_NULL, null=True, related_name="article_category"
     )
     description = models.TextField(max_length=100, blank=True, null=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="post")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
 
     def __str__(self):
         return f"Article: {self.title}"
@@ -33,3 +33,15 @@ class Product(models.Model):
 
     def __str__(self):
         return f"Product: {self.name}"
+
+
+class Note(models.Model):
+    title = models.CharField(max_length=100, blank=True, null=True)
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, related_name="note_category"
+    )
+    description = models.TextField(max_length=100, blank=True, null=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notes")
+
+    def __str__(self):
+        return f"Note: {self.title}"
