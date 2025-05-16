@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "api",
     "account",
     "app_test",
+    "app_qa",
     # Third party apps
     "rest_framework",
     "silk",

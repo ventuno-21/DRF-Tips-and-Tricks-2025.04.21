@@ -12,6 +12,7 @@ urlpatterns = [
     path("", include("api.urls")),
     path("account/", include("account.urls")),
     path("test/", include("app_test.urls")),
+    path("qa/", include("app_qa.urls")),
     path("silk/", include("silk.urls", namespace="silk")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
