@@ -30,9 +30,9 @@ Used when creating new instances. DRF calls create() when serializer.save() is i
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class ArticleSerializer(serializers.ModelSerializer):      def create(self, validated_data):          validated_data['author'] = self.context['request'].user          return Article.objects.create(**validated_data)   `
+```
 
 ✅ serializer update method
 --------------------------
@@ -43,9 +43,9 @@ Used to update existing instances. DRF calls update() when serializer.save() is 
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class ArticleSerializer(serializers.ModelSerializer):      def update(self, instance, validated_data):          instance.title = validated_data.get('title', instance.title)          instance.save()          return instance   `
+```
 
 ✅ serializer data vs validated\_data
 ------------------------------------
@@ -59,9 +59,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   serializer = ArticleSerializer(data=request.data)  serializer.is_valid()  print(serializer.validated_data)  # Cleaned input  print(serializer.data)            # Serialized output   `
+```
 
 ✅ serializer context
 --------------------
@@ -72,16 +72,15 @@ Context allows passing extra data (like request) into the serializer.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   serializer = ArticleSerializer(data=request.data, context={'request': request})   `
+```
 
 Inside the serializer:
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   user = self.context['request'].user   `
-
+```
 ✅ serializer fields customization
 ---------------------------------
 
@@ -91,9 +90,9 @@ You can customize fields using extra\_kwargs, read\_only\_fields, or override to
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class ArticleSerializer(serializers.ModelSerializer):      class Meta:          model = Article          fields = ['id', 'title', 'author']          read_only_fields = ['author']   `
+```
 
 ✅ serializer to\_representation
 -------------------------------
@@ -103,11 +102,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Used to customize the output of serialized data.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def to_representation(self, instance):      rep = super().to_representation(instance)      rep['author_name'] = instance.author.username      return rep   `
-
+```
 ✅ serializer validate method
 ----------------------------
 
@@ -116,11 +113,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use validate() to apply custom validation across multiple fields.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def validate(self, attrs):      if attrs['start_date'] > attrs['end_date']:          raise serializers.ValidationError("Start date must be before end date.")      return attrs   `
-
+```
 ✅ serializer field-level validation
 -----------------------------------
 
@@ -129,11 +124,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use validate\_() for field-specific validation.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def validate_title(self, value):      if 'django' not in value.lower():          raise serializers.ValidationError("Title must include 'django'.")      return value   `
-
+```
 ✅ serializer nested relationships
 ---------------------------------
 
@@ -142,11 +135,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 DRF supports nested serializers for related models.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class AuthorSerializer(serializers.ModelSerializer):      class Meta:          model = Author          fields = ['name']  class ArticleSerializer(serializers.ModelSerializer):      author = AuthorSerializer()   `
-
+```
 ✅ serializer save method
 ------------------------
 
@@ -156,10 +147,9 @@ The save() method wraps create() and update() logic. Override it to customize po
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def save(self, **kwargs):      instance = super().save(**kwargs)      instance.slug = slugify(instance.title)      instance.save()      return instance   `
-
+```
 ✅ serializer create method
 --------------------------
 
@@ -168,11 +158,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Used to define how new model instances are created from validated data.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def create(self, validated_data):      validated_data['author'] = self.context['request'].user      return Article.objects.create(**validated_data)   `
-
+```
 ✅ serializer update method
 --------------------------
 
@@ -182,10 +170,9 @@ Defines how existing instances are updated with new data.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def update(self, instance, validated_data):      instance.title = validated_data.get('title', instance.title)      instance.save()      return instance   `
-
+```
 ✅ serializer data vs validated\_data
 ------------------------------------
 
@@ -197,10 +184,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
     
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   serializer = ArticleSerializer(data=request.data)  serializer.is_valid()  print(serializer.validated_data)  print(serializer.data)   `
+```
 
 ✅ serializer context
 --------------------
@@ -211,9 +197,9 @@ Pass extra data (like request) to serializers via context.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   serializer = ArticleSerializer(data=request.data, context={'request': request})   `
+```
 
 ✅ serializer fields customization
 ---------------------------------
@@ -224,10 +210,9 @@ Customize fields using extra\_kwargs, read\_only\_fields, or override to\_repres
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class Meta:      model = Article      fields = ['id', 'title', 'author']      read_only_fields = ['author']   `
-
+```
 ✅ serializer to\_representation
 -------------------------------
 
@@ -237,9 +222,9 @@ Customize output representation of serialized data.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def to_representation(self, instance):      rep = super().to_representation(instance)      rep['author_name'] = instance.author.username      return rep   `
+```
 
 ✅ serializer validate method
 ----------------------------
@@ -250,9 +235,9 @@ Use validate() for cross-field validation.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def validate(self, attrs):      if attrs['start_date'] > attrs['end_date']:          raise serializers.ValidationError("Start date must be before end date.")      return attrs   `
+```
 
 ✅ serializer field-level validation
 -----------------------------------
@@ -262,10 +247,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use validate\_() for individual field validation.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def validate_title(self, value):      if 'django' not in value.lower():          raise serializers.ValidationError("Title must include 'django'.")      return value   `
+```
 
 ✅ serializer nested relationships
 ---------------------------------
@@ -276,9 +260,9 @@ Use nested serializers to represent related models.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class AuthorSerializer(serializers.ModelSerializer):      class Meta:          model = Author          fields = ['name']  class ArticleSerializer(serializers.ModelSerializer):      author = AuthorSerializer()   `
+```
 
 ✅ serializer depth
 ------------------
@@ -289,10 +273,9 @@ Use depth to auto-serialize related models.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class Meta:      model = Article      fields = '__all__'      depth = 1   `
-
+```
 ✅ serializer source
 -------------------
 
@@ -302,10 +285,9 @@ Use source to map serializer fields to model attributes or methods.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   author_name = serializers.CharField(source='author.username')   `
-
+```
 ✅ serializer method field
 -------------------------
 
@@ -315,9 +297,9 @@ Use SerializerMethodField for custom computed fields.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   author_name = serializers.SerializerMethodField()  def get_author_name(self, obj):      return obj.author.username   `
+```
 
 ✅ serializer hidden field
 -------------------------
@@ -328,10 +310,9 @@ Use HiddenField to auto-populate fields like created\_by.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   created_by = serializers.HiddenField(default=serializers.CurrentUserDefault())   `
-
+```
 ✅ serializer slug related field
 -------------------------------
 
@@ -341,9 +322,9 @@ Use SlugRelatedField to represent related objects using a slug field.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   author = serializers.SlugRelatedField(read_only=True, slug_field='username')   `
+```
 
 ✅ serializer primary key related field
 --------------------------------------
@@ -354,9 +335,9 @@ Use PrimaryKeyRelatedField to represent related objects by their ID.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())   `
+```
 
 ✅ serializer string related field
 ---------------------------------
@@ -367,10 +348,9 @@ Use StringRelatedField to represent related objects using their \_\_str\_\_() me
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   author = serializers.StringRelatedField()   `
-
+```
 ✅ serializer read only field
 ----------------------------
 
@@ -380,9 +360,9 @@ Use ReadOnlyField for fields that should not be editable.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   created_at = serializers.ReadOnlyField()   `
+```
 
 ✅ serializer write only field
 -----------------------------
@@ -393,9 +373,9 @@ Use WriteOnlyField for fields used only during input (e.g. passwords).
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   password = serializers.CharField(write_only=True)   `
+```
 
 ✅ serializer choice field
 -------------------------
@@ -406,9 +386,9 @@ Use ChoiceField to restrict input to predefined choices.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   status = serializers.ChoiceField(choices=['draft', 'published'])   `
+```
 
 ✅ serializer multiple choice field
 ----------------------------------
@@ -419,9 +399,9 @@ Use MultipleChoiceField for multi-select inputs.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   tags = serializers.MultipleChoiceField(choices=['django', 'drf', 'api'])   `
+```
 
 ✅ serializer email field
 ------------------------
@@ -431,11 +411,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use EmailField to validate email input.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   email = serializers.EmailField()   `
-
+```
 ✅ serializer url field
 ----------------------
 
@@ -445,10 +423,9 @@ Use URLField to validate URLs.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   website = serializers.URLField()   `
-
+```
 ✅ serializer ip address field
 -----------------------------
 
@@ -458,9 +435,9 @@ Use IPAddressField to validate IP addresses.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   ip_address = serializers.IPAddressField()   `
+```
 
 ✅ serializer decimal field
 --------------------------
@@ -471,9 +448,9 @@ Use DecimalField for precise decimal values.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   price = serializers.DecimalField(max_digits=6, decimal_places=2)   `
+```
 
 ✅ serializer date field
 -----------------------
@@ -484,9 +461,9 @@ Use DateField for date input.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   published_date = serializers.DateField()   `
+```
 
 ✅ serializer time field
 -----------------------
@@ -496,10 +473,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use TimeField for time input.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   published_time = serializers.TimeField()   `
+```
 
 ✅ serializer datetime field
 ---------------------------
@@ -510,9 +486,9 @@ Use DateTimeField for datetime input.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   created_at = serializers.DateTimeField()   `
+```
 
 ✅ serializer duration field
 ---------------------------
@@ -522,10 +498,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use DurationField for time durations.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   duration = serializers.DurationField()   `
+```
 
 ✅ serializer file field
 -----------------------
@@ -536,9 +511,9 @@ Use FileField to handle file uploads.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   document = serializers.FileField()   `
+```
 
 ✅ serializer image field
 ------------------------
@@ -548,11 +523,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use ImageField to handle image uploads.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   photo = serializers.ImageField()   `
-
+```
 ✅ serializer boolean field
 --------------------------
 
@@ -562,9 +535,9 @@ Use BooleanField for true/false values.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   is_active = serializers.BooleanField()   `
+```
 
 ✅ serializer integer field
 --------------------------
@@ -575,9 +548,9 @@ Use IntegerField for integer input.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   views = serializers.IntegerField()   `
+```
 
 ✅ serializer float field
 ------------------------
@@ -588,9 +561,9 @@ Use FloatField for floating-point numbers.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   rating = serializers.FloatField()   `
+```
 
 ✅ serializer save method
 ------------------------
@@ -601,9 +574,9 @@ The save() method in DRF serializers is a wrapper around create() and update(). 
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class ArticleSerializer(serializers.ModelSerializer):      def save(self, **kwargs):          instance = super().save(**kwargs)          instance.slug = slugify(instance.title)          instance.save()          return instance   `
+```
 
 ✅ serializer create method
 --------------------------
@@ -614,9 +587,9 @@ Used when creating new instances. DRF calls create() when serializer.save() is i
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class ArticleSerializer(serializers.ModelSerializer):      def create(self, validated_data):          validated_data['author'] = self.context['request'].user          return Article.objects.create(**validated_data)   `
+```
 
 ✅ serializer update method
 --------------------------
@@ -626,11 +599,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Used to update existing instances. DRF calls update() when serializer.save() is invoked on an existing object.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class ArticleSerializer(serializers.ModelSerializer):      def update(self, instance, validated_data):          instance.title = validated_data.get('title', instance.title)          instance.save()          return instance   `
-
+```
 ✅ serializer data vs validated\_data
 ------------------------------------
 
@@ -643,9 +614,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   serializer = ArticleSerializer(data=request.data)  serializer.is_valid()  print(serializer.validated_data)  # Cleaned input  print(serializer.data)            # Serialized output   `
+```
 
 ✅ serializer context
 --------------------
@@ -656,15 +627,14 @@ Context allows passing extra data (like request) into the serializer.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   serializer = ArticleSerializer(data=request.data, context={'request': request})   `
-
+```
 Inside the serializer:
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   user = self.context['request'].user   `
+```
 
 ✅ serializer fields customization
 ---------------------------------
@@ -675,9 +645,9 @@ You can customize fields using extra\_kwargs, read\_only\_fields, or override to
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class ArticleSerializer(serializers.ModelSerializer):      class Meta:          model = Article          fields = ['id', 'title', 'author']          read_only_fields = ['author']   `
+```
 
 ✅ serializer to\_representation
 -------------------------------
@@ -688,9 +658,9 @@ Used to customize the output of serialized data.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def to_representation(self, instance):      rep = super().to_representation(instance)      rep['author_name'] = instance.author.username      return rep   `
+```
 
 ✅ serializer validate method
 ----------------------------
@@ -701,9 +671,9 @@ Use validate() to apply custom validation across multiple fields.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def validate(self, attrs):      if attrs['start_date'] > attrs['end_date']:          raise serializers.ValidationError("Start date must be before end date.")      return attrs   `
+```
 
 ✅ serializer field-level validation
 -----------------------------------
@@ -714,9 +684,9 @@ Use validate\_() for field-specific validation.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def validate_title(self, value):      if 'django' not in value.lower():          raise serializers.ValidationError("Title must include 'django'.")      return value   `
+```
 
 ✅ serializer nested relationships
 ---------------------------------
@@ -727,9 +697,9 @@ DRF supports nested serializers for related models.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class AuthorSerializer(serializers.ModelSerializer):      class Meta:          model = Author          fields = ['name']  class ArticleSerializer(serializers.ModelSerializer):      author = AuthorSerializer()   `
+```
 
 ✅ serializer save method
 ------------------------
@@ -740,9 +710,9 @@ The save() method wraps create() and update() logic. Override it to customize po
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def save(self, **kwargs):      instance = super().save(**kwargs)      instance.slug = slugify(instance.title)      instance.save()      return instance   `
+```
 
 ✅ serializer create method
 --------------------------
@@ -753,9 +723,9 @@ Used to define how new model instances are created from validated data.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def create(self, validated_data):      validated_data['author'] = self.context['request'].user      return Article.objects.create(**validated_data)   `
+```
 
 ✅ serializer update method
 --------------------------
@@ -766,9 +736,9 @@ Defines how existing instances are updated with new data.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def update(self, instance, validated_data):      instance.title = validated_data.get('title', instance.title)      instance.save()      return instance   `
+```
 
 ✅ serializer data vs validated\_data
 ------------------------------------
@@ -782,9 +752,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   serializer = ArticleSerializer(data=request.data)  serializer.is_valid()  print(serializer.validated_data)  print(serializer.data)   `
+```
 
 ✅ serializer context
 --------------------
@@ -795,9 +765,9 @@ Pass extra data (like request) to serializers via context.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   serializer = ArticleSerializer(data=request.data, context={'request': request})   `
+```
 
 ✅ serializer fields customization
 ---------------------------------
@@ -808,9 +778,9 @@ Customize fields using extra\_kwargs, read\_only\_fields, or override to\_repres
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class Meta:      model = Article      fields = ['id', 'title', 'author']      read_only_fields = ['author']   `
+```
 
 ✅ serializer to\_representation
 -------------------------------
@@ -820,10 +790,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Customize output representation of serialized data.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def to_representation(self, instance):      rep = super().to_representation(instance)      rep['author_name'] = instance.author.username      return rep   `
+```
 
 ✅ serializer validate method
 ----------------------------
@@ -833,10 +802,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use validate() for cross-field validation.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def validate(self, attrs):      if attrs['start_date'] > attrs['end_date']:          raise serializers.ValidationError("Start date must be before end date.")      return attrs   `
+```
 
 ✅ serializer field-level validation
 -----------------------------------
@@ -847,9 +815,9 @@ Use validate\_() for individual field validation.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   def validate_title(self, value):      if 'django' not in value.lower():          raise serializers.ValidationError("Title must include 'django'.")      return value   `
+```
 
 ✅ serializer nested relationships
 ---------------------------------
@@ -860,9 +828,9 @@ Use nested serializers to represent related models.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class AuthorSerializer(serializers.ModelSerializer):      class Meta:          model = Author          fields = ['name']  class ArticleSerializer(serializers.ModelSerializer):      author = AuthorSerializer()   `
+```
 
 ✅ serializer depth
 ------------------
@@ -873,9 +841,9 @@ Use depth to auto-serialize related models.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class Meta:      model = Article      fields = '__all__'      depth = 1   `
+```
 
 ✅ serializer source
 -------------------
@@ -885,10 +853,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use source to map serializer fields to model attributes or methods.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   author_name = serializers.CharField(source='author.username')   `
+```
 
 ✅ serializer method field
 -------------------------
@@ -899,10 +866,9 @@ Use SerializerMethodField for custom computed fields.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   author_name = serializers.SerializerMethodField()  def get_author_name(self, obj):      return obj.author.username   `
-
+```
 ✅ serializer hidden field
 -------------------------
 
@@ -912,9 +878,9 @@ Use HiddenField to auto-populate fields like created\_by.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   created_by = serializers.HiddenField(default=serializers.CurrentUserDefault())   `
+```
 
 ✅ serializer slug related field
 -------------------------------
@@ -925,9 +891,9 @@ Use SlugRelatedField to represent related objects using a slug field.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   author = serializers.SlugRelatedField(read_only=True, slug_field='username')   `
+```
 
 ✅ serializer primary key related field
 --------------------------------------
@@ -938,9 +904,9 @@ Use PrimaryKeyRelatedField to represent related objects by their ID.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())   `
+```
 
 ✅ serializer string related field
 ---------------------------------
@@ -950,10 +916,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use StringRelatedField to represent related objects using their \_\_str\_\_() method.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   author = serializers.StringRelatedField()   `
+```
 
 ✅ serializer read only field
 ----------------------------
@@ -964,9 +929,9 @@ Use ReadOnlyField for fields that should not be editable.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   created_at = serializers.ReadOnlyField()   `
+```
 
 ✅ serializer write only field
 -----------------------------
@@ -977,9 +942,9 @@ Use WriteOnlyField for fields used only during input (e.g. passwords).
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   password = serializers.CharField(write_only=True)   `
+```
 
 ✅ serializer choice field
 -------------------------
@@ -989,10 +954,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use ChoiceField to restrict input to predefined choices.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   status = serializers.ChoiceField(choices=['draft', 'published'])   `
+```
 
 ✅ serializer multiple choice field
 ----------------------------------
@@ -1003,9 +967,9 @@ Use MultipleChoiceField for multi-select inputs.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   tags = serializers.MultipleChoiceField(choices=['django', 'drf', 'api'])   `
+```
 
 ✅ serializer email field
 ------------------------
@@ -1016,10 +980,9 @@ Use EmailField to validate email input.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   email = serializers.EmailField()   `
-
+```
 ✅ serializer url field
 ----------------------
 
@@ -1029,10 +992,9 @@ Use URLField to validate URLs.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   website = serializers.URLField()   `
-
+```
 ✅ serializer ip address field
 -----------------------------
 
@@ -1042,9 +1004,9 @@ Use IPAddressField to validate IP addresses.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   ip_address = serializers.IPAddressField()   `
+```
 
 ✅ serializer decimal field
 --------------------------
@@ -1055,10 +1017,9 @@ Use DecimalField for precise decimal values.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   price = serializers.DecimalField(max_digits=6, decimal_places=2)   `
-
+```
 ✅ serializer date field
 -----------------------
 
@@ -1068,10 +1029,9 @@ Use DateField for date input.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   published_date = serializers.DateField()   `
-
+```
 ✅ serializer time field
 -----------------------
 
@@ -1081,10 +1041,9 @@ Use TimeField for time input.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   published_time = serializers.TimeField()   `
-
+```
 ✅ serializer datetime field
 ---------------------------
 
@@ -1094,10 +1053,9 @@ Use DateTimeField for datetime input.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   created_at = serializers.DateTimeField()   `
-
+```
 ✅ serializer duration field
 ---------------------------
 
@@ -1107,10 +1065,9 @@ Use DurationField for time durations.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   duration = serializers.DurationField()   `
-
+```
 ✅ serializer file field
 -----------------------
 
@@ -1120,9 +1077,9 @@ Use FileField to handle file uploads.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   document = serializers.FileField()   `
+```
 
 ✅ serializer image field
 ------------------------
@@ -1133,10 +1090,9 @@ Use ImageField to handle image uploads.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   photo = serializers.ImageField()   `
-
+```
 ✅ serializer boolean field
 --------------------------
 
@@ -1146,10 +1102,9 @@ Use BooleanField for true/false values.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   is_active = serializers.BooleanField()   `
-
+```
 ✅ serializer integer field
 --------------------------
 
@@ -1159,9 +1114,9 @@ Use IntegerField for integer input.
 
 ### 🧪 Example
 
-python
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   views = serializers.IntegerField()   `
+```
 
 ✅ serializer float field
 ------------------------
@@ -1171,7 +1126,6 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Use FloatField for floating-point numbers.
 
 ### 🧪 Example
+```
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   rating = serializers.FloatField()   `
+```
