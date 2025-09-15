@@ -11,10 +11,15 @@ This document breaks down each commit from the DRF Tips and Tricks repo into dig
 The save() method in DRF serializers is a wrapper around create() and update(). It’s commonly overridden to customize object creation logic.
 
 ### 🧪 Example
+```
+class ArticleSerializer(serializers.ModelSerializer):
+    def save(self, **kwargs):
+        instance = super().save(**kwargs)
+        instance.slug = slugify(instance.title)
+        instance.save()
+        return instance
 
-python
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   class ArticleSerializer(serializers.ModelSerializer):      def save(self, **kwargs):          instance = super().save(**kwargs)          instance.slug = slugify(instance.title)          instance.save()          return instance   `
+```
 
 ✅ serializer create method
 --------------------------
